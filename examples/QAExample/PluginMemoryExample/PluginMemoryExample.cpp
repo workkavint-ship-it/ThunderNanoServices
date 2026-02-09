@@ -32,4 +32,5 @@ namespace Plugin {
     {
         return "Plugin used to measure  .so size";
     }
-}}
+}
+}
