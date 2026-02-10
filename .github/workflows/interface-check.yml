@@ -1,0 +1,31 @@
+name: Interface Enforcement
+
+on: pull_request
+
+jobs:
+  interface-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check header declarations
+        run: |
+          if ! grep -R "Initialize" . | grep "\.h"; then
+            echo "ERROR: Initialize not declared in header"
+            exit 1
+          fi
+          if ! grep -R "Deinitialize" . | grep "\.h"; then
+            echo "ERROR: Deinitialize not declared in header"
+            exit 1
+          fi
+
+      - name: Check cpp implementations
+        run: |
+          if ! grep -R "Initialize(" . | grep "\.cpp"; then
+            echo "ERROR: Initialize not implemented in cpp"
+            exit 1
+          fi
+          if ! grep -R "Deinitialize(" . | grep "\.cpp"; then
+            echo "ERROR: Deinitialize not implemented in cpp"
+            exit 1
+          fi
